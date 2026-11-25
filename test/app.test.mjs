@@ -41,6 +41,7 @@ test('registers, saves transactions, computes dashboard data, and isolates accou
   const created=await call(app,'/api/transactions',{method:'POST',cookie:first.cookie,body:tx(category)});
   assert.equal(created.response.status,201,created.data.error?.message);
   assert.equal(created.data.transaction.amount,'250.50');
+  assert.equal(created.data.transaction.source,'manual');
   const list=await call(app,'/api/transactions/search',{method:'POST',cookie:first.cookie,body:{q:'Cafe'}});assert.equal(list.data.transactions.length,1);assert.equal(list.response.headers.get('cache-control'),'no-store');
   const dashboard=await call(app,'/api/dashboard',{cookie:first.cookie});assert.equal(dashboard.data.expenses,'250.50');
   const invalid=await call(app,'/api/transactions',{method:'POST',cookie:first.cookie,body:tx(category,{amount:'1.001'})});assert.equal(invalid.response.status,400);
@@ -105,6 +106,9 @@ test('processes a due recurring transaction once and persists records and sessio
 test('serves the branded app shell and keeps settings persistent', async t => {
   const app=await start();t.after(()=>stop(app));const account=await register(app);
   const shell=await fetch(`${app.base}/`);assert.equal(shell.status,200);assert.match(await shell.text(),/SpendWise/);
+  const manifestResponse=await fetch(`${app.base}/manifest.webmanifest`);assert.equal(manifestResponse.status,200);const manifest=await manifestResponse.json();assert.equal(manifest.id,'/');assert.equal(manifest.start_url,'/#/dashboard');assert.equal(manifest.display,'standalone');assert.ok(manifest.icons.some(icon=>icon.sizes==='192x192'));assert.ok(manifest.icons.some(icon=>icon.sizes==='512x512'));
+  for(const [file,size] of [['spendwise-192.png',192],['spendwise-512.png',512],['apple-touch-icon.png',180]]){const icon=await fetch(`${app.base}/icons/${file}`);assert.equal(icon.status,200);assert.match(icon.headers.get('content-type'),/image\/png/);const bytes=Buffer.from(await icon.arrayBuffer());assert.equal(bytes.readUInt32BE(16),size);assert.equal(bytes.readUInt32BE(20),size);}
+  const serviceWorker=await fetch(`${app.base}/sw.js`);assert.equal(serviceWorker.status,200);assert.match(await serviceWorker.text(),/spendwise-shell-v3/);
   const profile=await call(app,'/api/me',{cookie:account.cookie});assert.equal(profile.response.headers.get('cache-control'),'no-store');assert.equal(profile.response.headers.get('x-frame-options'),'DENY');assert.equal(profile.response.headers.get('x-content-type-options'),'nosniff');
   const blocked=await fetch(`${app.base}/api/settings`,{method:'PUT',headers:{'content-type':'application/json',cookie:account.cookie,origin:'https://attacker.invalid'},body:JSON.stringify({theme:'olive'})});assert.equal(blocked.status,403);
   const saved=await call(app,'/api/settings',{method:'PUT',cookie:account.cookie,body:{theme:'midnight',currency:'INR',privacyMode:true,notifications:{budgets:false}}});assert.equal(saved.data.settings.theme,'midnight');assert.equal(saved.data.settings.privacyMode,true);

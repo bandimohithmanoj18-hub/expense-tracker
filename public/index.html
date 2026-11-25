@@ -6,8 +6,12 @@
   <meta name="theme-color" content="#11120f">
   <meta name="description" content="A calm, private space to understand your spending, plan budgets, and build savings.">
   <meta name="application-name" content="SpendWise">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="SpendWise">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>SpendWise | Dashboard</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="stylesheet" href="/styles.css">
   <script src="/app.js" type="module"></script>
@@ -25,7 +29,7 @@
         <button class="button button-primary button-full" type="submit" id="auth-submit">Sign in <span aria-hidden="true">→</span></button>
       </form>
       <p class="auth-switch"><span id="auth-switch-copy">New to SpendWise?</span> <button type="button" class="text-button" id="auth-switch">Create account</button></p>
-      <p class="auth-privacy"><span class="lock-mark" aria-hidden="true">⌑</span> Records are stored locally; SpendWise does not encrypt the database file.</p>
+      <p class="auth-privacy"><span class="lock-mark" aria-hidden="true">⌑</span> Records are saved to your account database. Bank transactions are not imported automatically.</p>
     </div>
     <div class="auth-footer">A calmer way to know where it goes.</div>
   </div>
