@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#11120f">
+  <meta name="description" content="A calm, private space to understand your spending, plan budgets, and build savings.">
+  <meta name="application-name" content="SpendWise">
+  <title>SpendWise | Dashboard</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" type="module"></script>
+</head>
+<body data-theme="olive">
+  <div id="auth-screen" class="auth-screen" hidden>
+    <div class="auth-brand"><a class="brand" href="/" aria-label="SpendWise home"><span class="brand-mark">S</span><span>spend<span class="brand-light">wise</span></span></a><span class="eyebrow">YOUR MONEY, IN FOCUS</span></div>
+    <div class="auth-card">
+      <div class="auth-heading"><span class="eyebrow" id="auth-mode-label">WELCOME BACK</span><h1 id="auth-title">A clearer view of your money.</h1><p id="auth-subtitle">Sign in to continue to your private financial space.</p></div>
+      <form id="auth-form" class="form-stack">
+        <label id="auth-name-wrap" hidden>Your name<input name="name" autocomplete="name" maxlength="80" placeholder="e.g. Aanya Sharma"></label>
+        <label>Email address<input name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com"></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required minlength="10" maxlength="128" placeholder="At least 10 characters"></label>
+        <p id="auth-error" class="form-error" role="alert"></p>
+        <button class="button button-primary button-full" type="submit" id="auth-submit">Sign in <span aria-hidden="true">→</span></button>
+      </form>
+      <p class="auth-switch"><span id="auth-switch-copy">New to SpendWise?</span> <button type="button" class="text-button" id="auth-switch">Create account</button></p>
+      <p class="auth-privacy"><span class="lock-mark" aria-hidden="true">⌑</span> Records are stored locally; SpendWise does not encrypt the database file.</p>
+    </div>
+    <div class="auth-footer">A calmer way to know where it goes.</div>
+  </div>
+
+  <div id="app-shell" class="app-shell" hidden>
+    <aside class="sidebar" id="sidebar">
+      <a class="brand sidebar-brand" href="#/dashboard" aria-label="SpendWise dashboard"><span class="brand-mark">S</span><span>spend<span class="brand-light">wise</span></span></a>
+      <div class="workspace-label">YOUR FINANCES</div>
+      <nav class="nav-list" aria-label="Main navigation">
+        <a href="#/dashboard" data-page="dashboard"><span class="nav-icon" aria-hidden="true">◫</span><span>Overview</span></a>
+        <a href="#/transactions" data-page="transactions"><span class="nav-icon" aria-hidden="true">↕</span><span>Transactions</span></a>
+        <a href="#/budgets" data-page="budgets"><span class="nav-icon" aria-hidden="true">◴</span><span>Budgets</span></a>
+        <a href="#/bills" data-page="bills"><span class="nav-icon" aria-hidden="true">▤</span><span>Bills & reminders</span></a>
+        <a href="#/recurring" data-page="recurring"><span class="nav-icon" aria-hidden="true">⟳</span><span>Recurring</span></a>
+        <a href="#/goals" data-page="goals"><span class="nav-icon" aria-hidden="true">◎</span><span>Savings goals</span></a>
+      </nav>
+      <div class="workspace-label nav-spacer">INSIGHTS</div>
+      <nav class="nav-list" aria-label="Insights navigation">
+        <a href="#/analytics" data-page="analytics"><span class="nav-icon" aria-hidden="true">▥</span><span>Analytics</span></a>
+        <a href="#/replay" data-page="replay"><span class="nav-icon" aria-hidden="true">▷</span><span>Financial replay</span></a>
+        <a href="#/import" data-page="import"><span class="nav-icon" aria-hidden="true">⇧</span><span>Import CSV</span></a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-note"><span class="note-orb"></span><div><strong>Small steps add up.</strong><span>Keep your money in view.</span></div></div>
+        <a class="profile-mini" href="#/settings"><span class="avatar" id="profile-avatar">S</span><span class="profile-copy"><strong id="profile-name">Your account</strong><span id="profile-email">Settings & preferences</span></span><span class="profile-more">···</span></a>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button type="button" id="mobile-menu" class="icon-button mobile-menu" aria-label="Open navigation" aria-expanded="false">☰</button>
+        <div class="breadcrumb"><span>SpendWise</span><span class="crumb-slash">/</span><strong id="page-crumb">Overview</strong></div>
+        <div class="topbar-actions">
+          <button type="button" class="search-trigger" id="command-open" aria-label="Search or jump to a page"><span>⌕</span><span>Search anything</span><kbd>Ctrl K</kbd></button>
+          <button type="button" class="icon-button notification-button" id="notifications-open" aria-label="Notifications"><span aria-hidden="true">♧</span><i id="notification-dot" hidden></i></button>
+          <span class="topbar-divider"></span>
+          <button type="button" id="quick-add" class="button button-primary top-add"><span>＋</span> Add new</button>
+        </div>
+      </header>
+      <div class="mobile-nav-backdrop" id="mobile-nav-backdrop" hidden></div>
+      <section class="page-content" id="page-content" tabindex="-1" aria-live="polite"></section>
+    </main>
+    <nav class="mobile-tabbar" aria-label="Primary navigation">
+      <a href="#/dashboard" data-page="dashboard"><span aria-hidden="true">◫</span><small>Overview</small></a>
+      <a href="#/transactions" data-page="transactions"><span aria-hidden="true">↕</span><small>Activity</small></a>
+      <a href="#/budgets" data-page="budgets"><span aria-hidden="true">◴</span><small>Budgets</small></a>
+      <button type="button" id="mobile-more" aria-label="More sections" aria-expanded="false"><span aria-hidden="true">•••</span><small>More</small></button>
+    </nav>
+  </div>
+
+  <dialog id="modal" class="modal"><div class="modal-panel"><div class="modal-header"><div><span class="eyebrow" id="modal-kicker">QUICK CAPTURE</span><h2 id="modal-title">Add transaction</h2></div><button class="icon-button modal-close" type="button" aria-label="Close">×</button></div><div id="modal-content"></div></div></dialog>
+  <dialog id="command-dialog" class="command-dialog"><form method="dialog" class="command-search"><span aria-hidden="true">⌕</span><input id="command-input" type="search" autocomplete="off" placeholder="Search transactions or jump to…" aria-label="Search transactions or jump to a page"><kbd>ESC</kbd></form><div id="command-results" class="command-results"></div><div class="command-hint"><span>↑ ↓ to navigate</span><span>↵ to open</span><span>ESC to close</span></div></dialog>
+  <dialog id="notifications-dialog" class="notifications-dialog"><div class="modal-header"><div><span class="eyebrow">YOUR UPDATES</span><h2>Notifications</h2></div><button class="text-button" type="button" id="mark-all-read">Mark all read</button><button class="icon-button modal-close" type="button" aria-label="Close">×</button></div><div id="notifications-content"></div></dialog>
+  <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+data/*.sqlite
+data/*.sqlite-shm
+data/*.sqlite-wal
+.env
+node_modules/
+coverage/
+dist/
+
+# ChatGPT project references are local guidance, not application source.
+sources/
+AGENTS.md
+APPLICATION_DEVELOPMENT_RULES_WITH_PRIVACY_PROTECTION.txt

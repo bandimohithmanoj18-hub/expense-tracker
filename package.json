@@ -1,0 +1,20 @@
+{
+  "name": "spendwise",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A personal finance tracker with local SQLite and hosted Turso storage",
+  "scripts": {
+    "start": "node src/server/index.mjs",
+    "dev": "node --watch src/server/index.mjs",
+    "build": "node src/build.mjs",
+    "test": "node --test",
+    "check": "node --check src/server/db.mjs && node --check src/server/index.mjs && node --check api/[...path].mjs && node --check public/app.js"
+  },
+  "engines": {
+    "node": "24.x"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.18.0"
+  }
+}
